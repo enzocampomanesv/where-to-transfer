@@ -121,9 +121,9 @@ def figure(pairs, full, path, long_sel=None):
                     markeredgecolor=fs.SURFACE, alpha=1 if arm == "selected" else 0.8, label=name)
         for recipe, (name, marker, dodge) in LONG.items():
             if recipe in long_sel:
-                n, v = long_sel[recipe]
-                ax.plot([n * dodge], [v[t]], ls="none", marker=marker, ms=6.5, mfc=fs.SURFACE,
-                        mec=fs.BLUE, mew=1.6, label=name)
+                v = long_sel[recipe].xs(t, level="target")
+                ax.plot(v.index * dodge, v.values, ls=(0, (2, 2)), lw=1, color=fs.BLUE, marker=marker, ms=6.5,
+                        mfc=fs.SURFACE, mec=fs.BLUE, mew=1.6, label=name)
         ax.set_xscale("log")
         ax.set_xticks(sizes)
         ax.set_xticklabels([f"{s:,}" for s in sizes], fontsize=8)
@@ -143,11 +143,13 @@ def figure(pairs, full, path, long_sel=None):
         ax.plot(np.array(sizes) * dodge, mean, color=color, lw=2, marker=marker, ms=5, markeredgecolor=fs.SURFACE)
     for recipe, (name, marker, dodge) in LONG.items():
         if recipe in long_sel:
-            n, v = long_sel[recipe]
-            d = v - m["scratch"].xs(n, level="sample_size").reindex(v.index)
-            ax.scatter(np.full(len(d), n * dodge * 1.05), d, s=10, color=fs.BLUE, alpha=0.35, edgecolor="none")
-            ax.plot([n * dodge * 1.05], [d.mean()], ls="none", marker=marker, ms=6.5, mfc=fs.SURFACE,
-                    mec=fs.BLUE, mew=1.6)
+            v = long_sel[recipe]
+            d = v - m["scratch"].reindex(v.index)
+            ns = d.index.get_level_values("sample_size")
+            ax.scatter(ns * dodge * 1.05, d, s=10, color=fs.BLUE, alpha=0.35, edgecolor="none")
+            mean = d.groupby(level="sample_size").mean()
+            ax.plot(mean.index * dodge * 1.05, mean.values, ls=(0, (2, 2)), lw=1, color=fs.BLUE, marker=marker,
+                    ms=6.5, mfc=fs.SURFACE, mec=fs.BLUE, mew=1.6)
     ax.set_xscale("log")
     ax.set_xticks(sizes)
     ax.set_xticklabels([f"{s:,}" for s in sizes], fontsize=8)
@@ -197,12 +199,11 @@ def main(args):
             ls.to_csv(os.path.join(args.out_dir, f"scratch_vs_transfer_long_{recipe}_summary.csv"), index=False)
             n_runs = lg.groupby(["source", "target", "random_seed"]).ngroups
             print(f"\nLong budget, recipe '{recipe}' ({n_runs} runs):\n" + ls.round(3).to_string(index=False))
-            per_t = lp.groupby("target")[["selected_short", "selected", "best", "scratch"]].mean().round(3)
+            per_t = lp.groupby(["sample_size", "target"])[["selected_short", "selected", "best", "scratch"]].mean().round(3)
             print(per_t.assign(sel_minus_scratch=(per_t.selected - per_t.scratch).round(3)).to_string())
             print("epochs trained:", lg["epochs_trained"].describe()[["50%", "min", "max"]].to_dict(),
                   " best epoch median:", lg["best_epoch"].median())
-            n_max = lp["sample_size"].max()
-            long_sel[recipe] = (n_max, lp[lp["sample_size"] == n_max].groupby("target")["selected"].mean())
+            long_sel[recipe] = lp.groupby(["target", "sample_size"])["selected"].mean()
     figure(pairs, full, args.fig, long_sel)
     print(f"\nsaved {args.fig}")
 

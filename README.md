@@ -32,7 +32,7 @@ Every script in `scripts/review_stats/` defaults to reading from `results/` and 
 | SAT decomposition of zero-shot performance: ALR regression with exact MRQAP, city bootstrap and leave-one-city-out | `alr_inference.py` | `random__layerwise_lr1e-04.zip` |
 | Sensitivity of the SAT categories and the ALR to the isolation-forest settings | `iso_sensitivity.py` | `iso_scores.zip`, `random__layerwise_lr1e-04.zip` |
 | Error rates in familiar-looking vs unfamiliar comparisons (concept vs covariate shift) | `sat_error_rates.py` | `review_stats/iso_sensitivity_shares.csv` |
-| Coverage (MMD, overlap) vs SAT shares, zero-shot and finetuning; threshold sensitivity | `coverage_inference.py`, `coverage_thresholds.py` | `tier1/validation.zip`, `random__layerwise_lr1e-04.zip`, `sampling_v3.zip` |
+| Coverage (MMD, overlap) vs SAT shares, zero-shot and finetuning; threshold sensitivity | `coverage_inference.py`, `coverage_thresholds.py` | `tier1/validation.zip`, `tier1/overlap_percentiles.csv`, `random__layerwise_lr1e-04.zip`, `sampling_v3.zip` |
 | Fig. 2: coverage vs Structural Ignorance and Preference Disagreement | `fig2_coverage_vs_disagreement.py` | as above |
 | Single-city vs multi-city sources | `aggregation_inference.py`, `fig3_source_types.py` | `random__layerwise_lr1e-04.zip`, `seed_predictions.csv.gz` |
 | Source selection from a seed sample, and its calibration | `source_selection.py`, `fig4_source_selection.py` | `sampling_v3.zip`, `iso_scores.zip`, `tier1/validation.zip`, `seed_predictions.csv.gz` |

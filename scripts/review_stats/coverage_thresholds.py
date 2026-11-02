@@ -78,7 +78,7 @@ def main(args):
     # continuous measures (QAP Spearman; for overlap, higher = better coverage)
     measures = {"overlap": "Overlap, avg k10/k20, 95th pct (paper)", "overlap_k10": "Overlap, k = 10, 95th pct",
                 "overlap_k20": "Overlap, k = 20, 95th pct", "mmd": "MMD"}
-    if args.percentile_csv:
+    if args.percentile_csv and os.path.exists(args.percentile_csv):
         p = pd.read_csv(args.percentile_csv).rename(columns={"source_city": "source", "target_city": "target"})
         df = df.merge(p, on=["source", "target"], how="left")
         for c in [c for c in p.columns if c.startswith("overlap_p")]:
@@ -118,6 +118,7 @@ if __name__ == "__main__":
     ap.add_argument("--validation-zip", default="../../results/tier1/validation.zip")
     ap.add_argument("--results-zip", default="../../results/random__layerwise_lr1e-04.zip")
     ap.add_argument("--runs-zip", default="../../results/sampling_v3.zip")
-    ap.add_argument("--percentile-csv", default=None, help="from t1_overlap_percentiles.py (CRIB)")
+    ap.add_argument("--percentile-csv", default="../../results/tier1/overlap_percentiles.csv",
+                    help="from t1_overlap_percentiles.py (needs the embeddings); skipped if absent")
     ap.add_argument("--out-dir", default="../../results/review_stats")
     main(ap.parse_args())
