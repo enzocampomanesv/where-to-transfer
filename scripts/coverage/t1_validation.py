@@ -29,6 +29,7 @@ Usage (override paths):
 
 from __future__ import annotations
 
+import os
 import argparse
 import warnings
 from pathlib import Path
@@ -47,7 +48,7 @@ warnings.filterwarnings("ignore")
 # Project-level defaults
 # ---------------------------------------------------------------------------
 
-TRANSFER_PATH = "/home/jovyan/private/where_transfer"
+TRANSFER_PATH = os.environ.get("WT_ROOT", "/home/jovyan/private/where_transfer")
 
 CITY_CODES = ["ACC", "NBO", "BEI", "TEM", "KIS", "CHI", "MUM"]
 OOD_CITIES = {"MUM"}

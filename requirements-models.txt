@@ -1,0 +1,11 @@
+# Model training, the SAT isolation forests, finetuning and the review reruns
+# (scripts/city_models, scripts/sat, scripts/coverage, scripts/finetune_experiments).
+# Needs a GPU and the Zenodo data (data/README.md).
+-r requirements-analysis.txt
+tensorflow>=2.10
+gdal
+rasterio
+geopandas
+joblib
+psutil
+seaborn

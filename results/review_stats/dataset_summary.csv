@@ -1,0 +1,8 @@
+city,comparisons,unique_locations,comparisons_per_location_median,distinct_location_pairs,repeated_pair_share,left_wins_share,participant_column,participants,comparisons_per_participant_median,comparisons_per_participant_iqr,train_pool_comparisons,test_comparisons,train_locations,test_locations,test_locations_also_in_train,test_locations_only_in_test,test_comparisons_per_location_median
+ACC,11784,660,38.0,11784,0.0,0.4885437881873727,,,,,8248,3536,660,660,660,0,11.0
+TEM,16589,660,54.0,16589,0.0,0.4712761468442944,,,,,11612,4977,660,660,660,0,16.0
+NBO,56590,1146,99.0,56590,0.0,0.45349001590386995,,,,,39613,16977,1146,1146,1146,0,30.0
+KIS,16026,485,66.0,16026,0.0,0.5212155247722451,,,,,11218,4808,485,485,485,0,20.0
+BEI,14683,440,67.0,14683,0.0,0.5103180548934142,,,,,10278,4405,440,440,440,0,20.0
+CHI,18708,296,127.0,18708,0.0,0.48535385931152447,,,,,13095,5613,296,296,296,0,38.0
+MUM,26722,1769,37.0,26722,0.0,0.5049023276700846,,,,,18705,8017,1763,1675,1669,6,10.0

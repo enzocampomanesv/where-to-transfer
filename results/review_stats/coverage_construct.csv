@@ -1,0 +1,16 @@
+measure,vs,rho,p_qap
+"Coverage category (ordinal, 0 = strong)",structural_ignorance,0.6387427688411064,0.000992063492063492
+"Coverage category (ordinal, 0 = strong)",relational_ignorance,0.42183953899824284,0.03511904761904762
+"Coverage category (ordinal, 0 = strong)",in_domain_share,-0.6419564464400935,0.000992063492063492
+"Coverage category (ordinal, 0 = strong)",cultural_disagreement,-0.49735771655778327,0.009126984126984128
+"Coverage category (ordinal, 0 = strong)",cd_rate_in_domain,0.11586837954263157,0.504563492063492
+Overlap ratio (avg k10/k20),structural_ignorance,-0.8826199769596429,0.0001984126984126984
+Overlap ratio (avg k10/k20),relational_ignorance,-0.6279645934020543,0.012896825396825396
+Overlap ratio (avg k10/k20),in_domain_share,0.8825389134055504,0.0001984126984126984
+Overlap ratio (avg k10/k20),cultural_disagreement,0.38304426484896525,0.03988095238095238
+Overlap ratio (avg k10/k20),cd_rate_in_domain,-0.31966283973007176,0.06329365079365079
+MMD (RBF kernel),structural_ignorance,0.40708466778460656,0.013095238095238096
+MMD (RBF kernel),relational_ignorance,0.22094465612109013,0.22380952380952382
+MMD (RBF kernel),in_domain_share,-0.3988165204102478,0.01507936507936508
+MMD (RBF kernel),cultural_disagreement,-0.2443570986658735,0.22083333333333333
+MMD (RBF kernel),cd_rate_in_domain,0.1321878699582221,0.4511904761904762

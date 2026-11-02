@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+logs/
+# large inputs, downloaded from Zenodo (see data/README.md)
+results/pool_features.zip
+data/zenodo/
+*.ckpt
+*.joblib

@@ -33,9 +33,9 @@ import geopandas as gpd
 
 # ── Config ────────────────────────────────────────────────────────────────
 
-BT_SCORES_DIR = '/home/jovyan/private/where_transfer/results/bt_scores'
-GPKG_TEMPLATE = '/home/jovyan/private/slums/data/PARTIMAP/clustering/{city}/{city}_FN_200m.gpkg'
-OUTPUT_DIR    = '/home/jovyan/private/where_transfer/results/bt_score_maps'
+BT_SCORES_DIR = os.path.join(os.environ.get("WT_ROOT", "/home/jovyan/private/where_transfer"), "results/bt_scores")
+GPKG_TEMPLATE = os.path.join(os.environ.get("WT_DATA_ROOT", "/home/jovyan/private/slums/data/PARTIMAP"), "clustering/{city}/{city}_FN_200m.gpkg")
+OUTPUT_DIR    = os.path.join(os.environ.get("WT_ROOT", "/home/jovyan/private/where_transfer"), "results/bt_score_maps")
 
 # Source-target pairs whose BT scores were saved
 BT_SCORE_PAIRS = [
