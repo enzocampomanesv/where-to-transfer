@@ -302,7 +302,7 @@ print("\n" + "="*60)
 print("TRAINING SCORE-FEATURE ISO FOREST")
 print("="*60)
 
-from evalBT import estimate_bt_scores_from_predictions
+from BT_utils.evalBT import estimate_bt_scores_from_predictions
 from sklearn.neural_network import MLPRegressor
 
 # Estimate BT scores from all source city annotations.

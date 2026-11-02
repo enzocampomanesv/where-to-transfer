@@ -52,7 +52,7 @@ def prep_train_test_split(data, train_index, test_index, sub_bands, d_src):
 def train_voter(data, model, d_src, frac, kf, sub_bands, n_height, n_width, n_channels, n_epochs, n_batch, init_wt_fn):
     num_classes = 2
     lr_scheduler = LearningRateScheduler(reduce_lr_on_plateau)
-    with open("votes/{}_{}_frac{}_dcai.csv".format(out_model_base_name,d_src, frac), 'w', newline='') as file:
+    with open("votes/perf_metrics/{}/{}_{}_frac{}_dcai.csv".format(city, out_model_base_name,d_src, frac), 'w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(['bands', 'accuracy', 'fold', 'frac'])
         test_pred_df = pd.DataFrame()
@@ -79,7 +79,7 @@ def train_voter(data, model, d_src, frac, kf, sub_bands, n_height, n_width, n_ch
             print("Fold:", fold)
             img_in_t, train_labels, t_w, img_in_v, val_labels, test_fold_df = prep_train_test_split(data, train_index, test_index, sub_bands, d_src)
             # Callbacks
-            tensorboard_log_dir = "logs/votes/{}_{}_{}_f{}".format(out_model_base_name,d_src, frac, fold)
+            tensorboard_log_dir = "logs/votes/{}/{}_{}_{}_f{}".format(city, out_model_base_name,d_src, frac, fold)
             tensorboard_callback = TensorBoard(log_dir=tensorboard_log_dir)
             ckpt_out = "trained_models/voter/{}_{}_{}_f{}_best_dcai.ckpt".format(out_model_base_name,d_src, frac, fold)
             checkpoint = ModelCheckpoint(ckpt_out,

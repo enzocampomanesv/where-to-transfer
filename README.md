@@ -49,11 +49,13 @@ Every script in `scripts/review_stats/` defaults to reading from `results/` and 
 
 | Stage | Folder | Main entry points |
 |---|---|---|
-| 1. City models: a Bradley–Terry pairwise model per city | [`scripts/city_models/`](scripts/city_models/) | `ACC_train_bradleyTerry_ensemble.py`; `join_bt_gpkg.py` joins scores to the patch grid |
+| 1. City models: a Bradley–Terry pairwise model per city | [`scripts/city_models/`](scripts/city_models/) | `ACC_train_bradleyTerry_ensemble.py` (with `train_voter_600k.py`, `archs/` and `utils/`); `join_bt_gpkg.py` joins scores to the patch grid |
 | 2. SAT: isolation forests on the source model's image and pair features; categorisation of target comparisons into Consensus, Preference Disagreement, Relational and Structural Ignorance | [`scripts/sat/`](scripts/sat/) | `train_isoforest.sh` → `where_transfer_trainIso_BT_v2.py`; the two notebooks show the original build and inference steps |
 | 3. Coverage: MMD and k-NN overlap between source and target embeddings | [`scripts/coverage/`](scripts/coverage/) | `t1_metrics.py` → `t1_validation.py`, `t1_rankings.py`; `t1_overlap_percentiles.py` |
 | 4. Transfer experiments: zero-shot, finetuning, sampling strategies, training from scratch, longer training budgets | [`scripts/finetune_experiments/`](scripts/finetune_experiments/) | see below |
 | 5. Statistics and figures | [`scripts/review_stats/`](scripts/review_stats/) | see above |
+
+Shared by several stages: [`scripts/BT_utils/`](scripts/BT_utils/) estimates Bradley–Terry scores from pairwise predictions and evaluates them (`evalBT.py`), decomposes them (`decompBT.py`) and adds score metrics to the SAT categories (`aoaBT.py`).
 
 Stage 4 in more detail:
 
@@ -62,7 +64,7 @@ Stage 4 in more detail:
 - `train_from_scratch.py`: the same architecture trained from random weights on the same target comparisons. Output `from_scratch.csv`.
 - `transfer_long_budget.py` (both recipes: `run_transfer_long.sh`): transfer with the from-scratch training budget, using layer-wise or full finetuning. Output `transfer_long_*.csv`.
 - `dump_seed_predictions.py`, `dump_iso_scores.py` and `dump_pool_features.py`: export the intermediate files used by the analysis.
-- `run_pipeline.py`, `registry.py`, `gate.py`, `pairgraph.py`, `calibrate_degree.py`, `citywide_score.py` and `phase3.py`: shared infrastructure. They resolve models and paths, check reproducibility against the original runs, and score city-wide comparison graphs.
+- `run_pipeline.py`, `registry.py`, `gate.py`, `pairgraph.py`, `calibrate_degree.py`, `citywide_score.py`, `phase3.py`, `bt_sparse.py`, `normalize.py` and `rasterize.py`: shared infrastructure. They resolve models and paths, check reproducibility against the original runs, and score city-wide comparison graphs.
 - `test_*.py`: self-checks for the modules above. Most need the raw data.
 
 ### Paths and environment
@@ -70,8 +72,8 @@ Stage 4 in more detail:
 The experiment scripts read two environment variables:
 
 ```bash
-export WT_DATA_ROOT=/path/to/zenodo/data          # vote databases, image patches, trained city models
-export WT_ROOT=/path/to/where_transfer            # isolation forests, embeddings and outputs
+export WT_DATA_ROOT=/path/to/zenodo/data_root     # vote databases, image patches, trained city models
+export WT_ROOT=/path/to/zenodo/wt_root            # isolation forests, embeddings and outputs
 export PYTHONPATH="$PWD/scripts:$PWD/scripts/city_models:$PYTHONPATH"
 pip install -r requirements-models.txt
 ```

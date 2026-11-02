@@ -20,7 +20,7 @@ try:
 except ImportError:  # local layout
     import sys, os
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-    from evalBT import estimate_bt_scores_from_predictions as bt_est
+    from BT_utils.evalBT import estimate_bt_scores_from_predictions as bt_est
 
 
 # ---------------------------------------------------------------------------

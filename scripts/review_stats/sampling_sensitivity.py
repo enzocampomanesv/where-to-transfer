@@ -62,7 +62,7 @@ sys.path[:0] = [os.path.join(HERE, "..", "finetune_experiments"), os.path.join(H
 import finetune_prospective as fp                                   # noqa: E402
 from finetune_informed import INFORMED_BASE_WEIGHTS, informed_sample_unified  # noqa: E402
 from dump_pool_features import mlp_from_arrays, sf_score_from_arrays  # noqa: E402
-from evalBT import estimate_bt_scores_from_predictions               # noqa: E402
+from BT_utils.evalBT import estimate_bt_scores_from_predictions               # noqa: E402
 
 CITIES = ["ACC", "TEM", "NBO", "KIS", "BEI", "CHI", "MUM"]
 SEEDS = [42, 43, 44, 45, 46]

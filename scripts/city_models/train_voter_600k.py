@@ -25,13 +25,10 @@ def retrieve_db(db_path, sql):
     return con, pd.read_sql(sql, con = con)
 
 def load_data(data, sub_bands, d_src, norm_data=False):
-    # Replace "XX" with the new string
     data_copy = data.copy()
     if ((d_src == "S1") | (d_src == "wv3")):
         data_copy.loc[:, 'left'] = data_copy['left'].str.replace(r'S2', d_src, regex=True)
         data_copy.loc[:, 'right'] = data_copy['right'].str.replace(r'S2', d_src, regex=True)
-        # data['left'] = data['left'].str.replace(r'S2', d_src, regex=True)
-        # data['right'] = data['right'].str.replace(r'S2', d_src, regex=True)
     l_fp = data_copy['left'].values
     r_fp = data_copy['right'].values
     labels = data_copy['y'].values
@@ -56,8 +53,23 @@ def load_and_preprocess_image(fp, sub_bands, norm_data=False):
         img_array = img_array[sub_bands,:,:]
     return img_array
 def load_and_transpose(fp, sub_bands, norm_data=False):
-    d_img = np.array([load_and_preprocess_image(path, sub_bands, norm_data) for path in fp])
-    return np.transpose(d_img, (0, 2, 3, 1))
+    # Load and process each image individually to handle different sizes
+    processed_images = []
+    for path in fp:
+        img = load_and_preprocess_image(path, sub_bands, norm_data)
+        # img shape is (bands, H, W)
+        # Transpose to (H, W, bands)
+        img_transposed = np.transpose(img, (1, 2, 0))
+        # Crop to 20x20 (handles both 21x21 and 20x20 inputs)
+        img_cropped = img_transposed[:20, :20, :]
+        processed_images.append(img_cropped)
+    
+    # Now all images are (20, 20, bands), safe to create array
+    return np.array(processed_images)
+
+# def load_and_transpose(fp, sub_bands, norm_data=False):
+#     d_img = np.array([load_and_preprocess_image(path, sub_bands, norm_data) for path in fp])
+#     return np.transpose(d_img, (0, 2, 3, 1))
 
 # def base_regr(in_layer, se = 0):
 #     in_shape = in_layer.shape
