@@ -47,7 +47,8 @@ AGGREGATE_MEMBERS: Dict[str, list] = {
 # Per-city acquisition year. Fill in any city whose imagery year != DEFAULT_YEAR.
 # Kept explicit because a wrong year silently loads the wrong tiles.
 CITY_YEARS: Dict[str, int] = {
-    # "MUM": 2023,   # <- example; set real values on your machine
+    "BEI": 2024, "CHI": 2024, "KIS": 2024,
+    "NBO": 2025, "MUM": 2025,          # ACC and TEM use DEFAULT_YEAR (2022)
 }
 
 DEFAULT_TILE_TEMPLATE = "{root}/votes/{year}/{city}/{d_src}/{city}_{d_src}_{id}.tif"
