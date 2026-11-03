@@ -9,7 +9,7 @@ The study trains a pairwise livability model for each of seven cities (Accra, Te
 The repository has two parts:
 
 - **Reproducing the statistics and figures** takes a laptop and the result files in [`results/`](results/), about 50 MB. No GPU is needed.
-- **Rerunning the experiments** (model training, the SAT isolation forests, finetuning and the review-round reruns) needs a GPU and the raw data from Zenodo ([`data/README.md`](data/README.md)).
+- **Rerunning the experiments** (model training, the SAT isolation forests, finetuning and the review-round reruns) needs a GPU and the raw data from Zenodo ([doi:10.5281/zenodo.23910257](https://doi.org/10.5281/zenodo.23910257); see [`data/README.md`](data/README.md)).
 
 ## Quick start: statistics and figures
 
@@ -102,4 +102,4 @@ If you use this code or data, please cite the article (reference to be added on 
 
 ## Licence
 
-Code: MIT ([`LICENSE`](LICENSE)). The data on Zenodo is released under the licence stated there.
+Code: MIT ([`LICENSE`](LICENSE)). The data on Zenodo are released under CC BY 4.0.

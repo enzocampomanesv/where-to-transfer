@@ -1,8 +1,8 @@
 # Data
 
-The statistics and figures need only the files in [`../results/`](../results/). Rerunning the experiments needs the raw data, which is too large for git and will be archived on Zenodo under CC BY 4.0:
+The statistics and figures need only the files in [`../results/`](../results/). Rerunning the experiments needs the raw data, which is too large for git and is archived on Zenodo under CC BY 4.0:
 
-> The Zenodo DOI will be added here when the deposit is published, together with the revised article.
+> Zenodo: [https://doi.org/10.5281/zenodo.23910257](https://doi.org/10.5281/zenodo.23910257)
 
 | Archive | Content | Unpacks to |
 |---|---|---|
