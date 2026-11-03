@@ -33,13 +33,15 @@ Every script in `scripts/review_stats/` defaults to reading from `results/` and 
 | Sensitivity of the SAT categories and the ALR to the isolation-forest settings | `iso_sensitivity.py` | `iso_scores.zip`, `random__layerwise_lr1e-04.zip` |
 | Error rates in familiar-looking vs unfamiliar comparisons (concept vs covariate shift) | `sat_error_rates.py` | `review_stats/iso_sensitivity_shares.csv` |
 | Coverage (MMD, overlap) vs SAT shares, zero-shot and finetuning; threshold sensitivity | `coverage_inference.py`, `coverage_thresholds.py` | `tier1/validation.zip`, `tier1/overlap_percentiles.csv`, `random__layerwise_lr1e-04.zip`, `sampling_v3.zip` |
-| Fig. 2: coverage vs Structural Ignorance and Preference Disagreement | `fig2_coverage_vs_disagreement.py` | as above |
-| Single-city vs multi-city sources | `aggregation_inference.py`, `fig3_source_types.py` | `random__layerwise_lr1e-04.zip`, `seed_predictions.csv.gz` |
-| Source selection from a seed sample, and its calibration | `source_selection.py`, `fig4_source_selection.py` | `sampling_v3.zip`, `iso_scores.zip`, `tier1/validation.zip`, `seed_predictions.csv.gz` |
-| Transfer vs training from scratch | `scratch_vs_transfer.py` | `from_scratch.csv`, `transfer_long_layerwise.csv`, `transfer_long_match.csv`, `sampling_v3.zip` |
-| Leak-free comparison of sampling strategies (random, SAT-informed, uncertainty, oracle) | `sampling_inference.py`, `fig5_sampling.py` | `sampling_v3.zip` |
-| Practitioner's guide | `fig6_guide.py` | none (diagram) |
-| Supplementary sensitivity figure | `figS_sensitivity.py` | `review_stats/iso_sensitivity_*.csv`, `review_stats/sampling_sensitivity_summary.csv` |
+| Fig. 3: error rates on unfamiliar vs covered comparisons; Fig. 4: coverage vs Structural Ignorance and Preference Disagreement | `fig3_sat_coverage.py` (uses `fig1f_error_rates.py`, `fig2_coverage_vs_disagreement.py`) | as above, `review_stats/iso_sensitivity_shares.csv` |
+| Fig. 5: source selection from a seed sample, and its calibration | `source_selection.py`, `fig4_source_selection.py` | `sampling_v3.zip`, `iso_scores.zip`, `tier1/validation.zip`, `seed_predictions.csv.gz` |
+| Fig. 6: single-city vs multi-city sources | `aggregation_inference.py`, `fig5_source_types.py` (uses `fig3_source_types.py`) | `random__layerwise_lr1e-04.zip`, `sampling_v3.zip`, `seed_predictions.csv.gz` |
+| Fig. 7 and Supplementary Fig. S3: transfer vs training from scratch (layer-wise; full finetuning) | `scratch_vs_transfer.py`, `fig6_scratch_vs_transfer.py` | `from_scratch.csv`, `transfer_long_layerwise.csv`, `transfer_long_match.csv`, `sampling_v3.zip` |
+| Supplementary Fig. S1: sampling strategies (random, SAT-informed, uncertainty, oracle) | `sampling_inference.py`, `figS1_sampling.py` | `sampling_v3.zip` |
+| Supplementary Tables S4 and S5: participants and agreement per city | `participant_summary.py` | the raw workshop database, which holds personal data and is not released; its aggregate output `review_stats/participant_summary.csv` is included |
+| Additional sensitivity figure (not in the paper) | `figS_sensitivity.py` | `review_stats/iso_sensitivity_*.csv`, `review_stats/sampling_sensitivity_summary.csv` |
+
+Figs. 1, 2, and 8 (study overview, SAT classes, and workflow) are drawings and have no script.
 
 `dyadic_inference.py` holds the inference for dependent source–target pairs (exact QAP / MRQAP over the 5,040 city relabellings, city bootstrap, crossed random effects); `fig_style.py` holds shared plotting settings.
 

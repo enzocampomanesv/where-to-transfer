@@ -14,8 +14,9 @@ done
 echo "== scratch_vs_transfer"
 python scratch_vs_transfer.py --long-csv ../../results/transfer_long_layerwise.csv ../../results/transfer_long_match.csv
 
-for f in fig2_coverage_vs_disagreement fig3_source_types fig4_source_selection fig5_sampling \
-         fig6_guide figS_sensitivity; do
+for f in fig3_sat_coverage fig4_source_selection fig5_source_types fig6_scratch_vs_transfer figS1_sampling          figS_sensitivity; do
   echo "== $f"; python $f.py
 done
+echo "== figS3 (full finetuning)"
+python fig6_scratch_vs_transfer.py --pairs-csv ../../results/review_stats/scratch_vs_transfer_long_match_pairs.csv   --out ../../figures/figS3_full_finetuning.png
 echo "Done: statistics in results/review_stats/, figures in figures/."

@@ -2,8 +2,9 @@
 coverage_thresholds.py  (review round 1: R1-M7, MMD / overlap thresholds)
 =========================================================================
 
-Does the coverage reading (coverage tracks Structural Ignorance, i.e. covariate
-shift, but not zero-shot performance or the finetuning gain) depend on the arbitrary choices in the Tier 1 measures?
+Does the coverage reading (revision_notes_R1.md §3.4: coverage tracks Structural
+Ignorance, i.e. covariate shift, but not zero-shot performance or the finetuning
+gain) depend on the arbitrary choices in the Tier 1 measures?
 
   * overlap ratio at k = 10, k = 20 and their average (the paper's measure), and,
     if --percentile-csv is given (t1_overlap_percentiles.py, needs the embeddings
@@ -38,6 +39,7 @@ from sampling_inference import load_runs
 OUTCOMES = {"structural_ignorance": "Structural Ignorance share",
             "pd_rate_in_domain": "PD rate among in-domain pairs",
             "zero_spearman": "Zero-shot Spearman",
+            "gain_500": "Finetuning gain, n = 500",
             "gain_1000": "Finetuning gain, n = 1,000"}
 MMD_CUTS = [0.03, 0.04, 0.05, 0.06, 0.07]
 OVERLAP_CUTS = [0.85, 0.875, 0.90, 0.925, 0.95]
@@ -51,10 +53,12 @@ def load_pairs(validation_zip, results_zip, runs_zip):
     df = df.merge(zs, on=["source", "target"])
     df["pd_rate_in_domain"] = df["cultural_disagreement"] / (df["consensus"] + df["cultural_disagreement"])
     runs, _ = load_runs(runs_zip)
-    r = runs[(runs["sampling"] == "random") & (runs["sample_size"] == 1000)]
-    gain = (r.groupby(["source", "target"])["spearman"].mean()
-            - r.groupby(["source", "target"])["zero_spearman"].first()).rename("gain_1000")
-    return df.merge(gain.reset_index(), on=["source", "target"])
+    for n in (500, 1000):
+        r = runs[(runs["sampling"] == "random") & (runs["sample_size"] == n)]
+        gain = (r.groupby(["source", "target"])["spearman"].mean()
+                - r.groupby(["source", "target"])["zero_spearman"].first()).rename(f"gain_{n}")
+        df = df.merge(gain.reset_index(), on=["source", "target"])
+    return df
 
 
 def category(df, mmd_cut, overlap_cut, overlap_col="overlap"):
@@ -95,6 +99,12 @@ def main(args):
             if df["_cat"].nunique() > 1:
                 row.update(correlations(df, "_cat"))
             rows.append(row)
+    # the paper's measures without Mumbai (6 cities, 720 relabelings)
+    nm = df[(df["source"] != "MUM") & (df["target"] != "MUM")].copy()
+    nm["_cat"] = category(nm, 0.05, 0.90)
+    rows.append({"variant": "Overlap (paper), without Mumbai", "kind": "without_mumbai", **correlations(nm, "overlap")})
+    rows.append({"variant": "Category (paper cut-offs), without Mumbai", "kind": "without_mumbai",
+                 **correlations(nm, "_cat")})
     out = pd.DataFrame(rows)
     out.to_csv(os.path.join(args.out_dir, "coverage_thresholds.csv"), index=False)
 
